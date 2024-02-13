@@ -51,6 +51,13 @@ int main()
     }
     cout << endl; // end of line
 
+    // alternatively
+    cout << "The ages_vector contains elements:";
+    for (size_t i=0; i<ages_vector.size(); ++i) {      // for each value in the vector
+        cout << ages_vector.at(i) << ", ";
+    }
+    cout << endl; // end of line
+
     // We can access vector elements using an INDEX (two ways are possible)
     // 1. access elements by index using at() - vector.at(index)
     cout << "Element at index position 3 : ages_vector.at(3) = " << ages_vector.at(3) << endl;
