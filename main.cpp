@@ -18,7 +18,7 @@ using namespace std;
  * - accessing the elements using: vector.at(index) OR vector[index]
  * - iterating through the elements with for loops
  * - passing a vector into a function by reference (using reference parameter)
- *   (vectors can be passed by value, but that that is inefficient)
+ *   (vectors can be passed by value, but that is inefficient)
  * - using selected functions from the Algorithms Library <algorithm> to process vector
  *    functions:  count, count_if
  *                  use of lambdas, use of predicates
@@ -46,14 +46,14 @@ int main()
     ages_vector.push_back(21);
 
     cout << "The ages_vector contains elements:";
-    for (int age : ages_vector) {      // for each value in the vector
+    for (int age : ages_vector) {      // for each value in the vector, place a COPY of it in the age variable
        cout << age << ", ";
     }
     cout << endl; // end of line
 
     // alternatively
     cout << "The ages_vector contains elements:";
-    for (size_t i=0; i<ages_vector.size(); ++i) {      // for each value in the vector
+    for (size_t i=0; i<ages_vector.size(); ++i) {      // the size_t type is often used to declare an index
         cout << ages_vector.at(i) << ", ";
     }
     cout << endl; // end of line
@@ -83,7 +83,7 @@ int main()
 
     // a vector can be assigned to another vector replacing
     // all the elements in the target vector.
-    vector<int> ages_vector_copy = ages_vector;  // assignment operator copies whole vector
+    vector<int> ages_vector_copy = ages_vector;  // assignment operator copies whole vector ( O(N) )
     cout << "Contents of copied vector ages_vectorCopy:";
     display(ages_vector_copy);
 
@@ -131,14 +131,14 @@ int main()
  * @param vector_ref is a reference to a 'constant vector of int'
  * - a reference is an alias - another name for the vector 'ages_vector' in this case.
  */
-void display(const vector<int>& vector_ref)
+void display(const vector<int>& vect)
 {
-    for (int i=0; i < vector_ref.size(); i++)
+    for (int i=0; i < vect.size(); i++)
     {
         if (i != 0) {
             cout << ",";
         }
-        cout << vector_ref.at(i);
+        cout << vect.at(i);
     }
     cout << endl;
 }
