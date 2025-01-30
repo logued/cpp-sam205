@@ -72,6 +72,7 @@ int main()
     int back = ages_vector.back();     // returns reference to the back element (last added)
     cout << "Front = " << front << ", Back = " << back << endl;
 
+
     // a vector can be assigned to another vector replacing
     // all the elements in the target vector.
     vector<int> ages_vector_copy = ages_vector;  // assignment operator copies whole vector
