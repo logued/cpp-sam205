@@ -47,7 +47,7 @@ int main()
 
     cout << "The ages_vector contains elements:";
     for (int age : ages_vector) {      // for each value in the vector
-       cout << age << ", ";
+       cout << age << ", ";             // here, age stores a copy of the current element
     }
     cout << endl; // end of line
 
@@ -85,34 +85,6 @@ int main()
     display(ages_vector);
 
     // the contents of two vectors can be swapped using vector.swap()
-
-    ////// Processing vectors using functions from the                //////
-    ////// Algorithms Library <algorithm> and using lambda functions  //////
-
-    // use the count() function from <algorithm> library
-    // Let's count the number of ages in the vector that are = 18
-    int age = 18;
-
-    int num_items = count(ages_vector.begin(), ages_vector.end(), age);  // counts all matches (=18) from beginning to end of vector
-    cout << "Count of students aged " << age << " = " << num_items << endl;
-
-    // begin() returns an iterator that points at the beginning of the vector
-    // end() returns an iterator that points at (one past) the last element of the vector
-
-
-    // use the count_if() function from <algorithm> library
-    // and a lambda expression to count student ages that are less than 18
-    int count_under18 = count_if(ages_vector.begin(), ages_vector.end(), [] (int i) { return i < 18; } );
-    cout << "Count of students aged under 18 = " << count_under18 << '\n';
-
-    // Lambda expression:  "[] (int i) { return i < 18; }"
-    // A "lambda" is a type of function that does not have a name.
-    // the count_if() function iterates over all elements in the vector, from beginning to end.
-    // The function count_if()  applies the "lambda" to each element as it meets them.
-    // This lambda applies the "predicate" ("i<18") - to test whether each element (age)
-    // is less than 18 or not.  It returns true or false in each case.
-    // count_if increments a count for each time "true" is returned, and
-    // finally returns the count.
 
     cout << "Program finished - goodbye." << endl;
 }
