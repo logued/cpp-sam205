@@ -138,7 +138,7 @@ int main()
     // count_if increments a count for each time "true" is returned, and
     // finally returns the count.
 
-    cout << "Program finished - goodbye." << endl;
+    cout << "Program finished -  goodbye." << endl;
 }
 
 /**
