@@ -1,4 +1,4 @@
-// sam205 - vector basics and basic <algorithm> functions   Jan 2025
+// sam205 - vector basics and basic <algorithm> functions   Feb 2026
 //
 // https://en.cppreference.com/w/cpp/container/vector
 
@@ -25,16 +25,18 @@ using namespace std;
  */
 
 // function prototype
-void display(const vector<int> &);  // parameter type is a "reference to a constant vector of int" (pass-by-reference)
+void display(const vector<int> &);
+// parameter type is a "reference to a constant vector of constant int values" (pass-by-reference)
 // the "const" means that the parameter references a constant vector - meaning that,
 // the reference can not be used to modify the contents of the vector.
+// 'const int' means that individual elements can not be modified.
 
 int main()
 {
     cout << "sam205 - vector basics" << endl;
 
     // Create a vector called "ages_vector" to store the ages of students in a class.
-    // The "ages_vector" is an object that is of type 'vector of ints'
+    // The "ages_vector" is an object that is of type 'vector of int'
 
 	vector<int> ages_vector;  // declare an object that is a vector of int - initially empty
 
@@ -46,14 +48,14 @@ int main()
     ages_vector.push_back(21);
 
     cout << "The ages_vector contains elements:";
-    for (int& age : ages_vector) {      // 'age' is a reference to an int, and is used to reference
-       cout << age << ", ";             //       each element of the vector in sequence.
-    }
+    for (const int& age : ages_vector) {      // 'age' is a reference to a constant int, and is used to reference
+       cout << age << ", ";                   // each element of the vector in sequence.
+    }                                   // 'const' prevents 'age' being used to change values in the vector
     cout << endl; // end of line
 
     // alternatively
     cout << "The ages_vector contains elements:";
-    for (size_t i=0; i<ages_vector.size(); ++i) {      // the size_t type is often used to declare an index.
+    for (size_t i=0; i<ages_vector.size(); ++i) {   // the size_t type is often used to declare an indexes type.
         cout << ages_vector.at(i) << ", ";          // It is a type that can hold an int value that is big enough
     }                                                   // to access the maximum possible index of a vector.
     cout << endl; // end of line
@@ -73,12 +75,13 @@ int main()
     // array notation "ages_vector[index]" will NOT throw an error if the array
     // index is out of bounds, and will return an unreliable result (here, zero is returned)
     // So, it is usually safer to use the .at(index) function.
-    // Uncomment the following line to see the that no exception is thrown even though index is too large.
-    cout << "Element at index position 999 is = " << ages_vector[999] << " ERROR - Unreliable Value Returned!" <<endl;
+    // Uncomment the following line, and run, to see the that
+    // no exception is thrown even though index is out of bounds.
+    cout << "Element at index position 999 is = " << ages_vector[999] << " Not good - index of 999 does not cause an exception" <<endl;
 
-    int& front = ages_vector.front();   // returns reference to the front element
-    int& back = ages_vector.back();     // returns reference to the back element (last added)
-    cout << "Front = " << front << ", Back = " << back << endl;
+    int & frontValue = ages_vector.front();   // returns reference to the element in the first element
+    int & backValue = ages_vector.back();     // returns reference to the element at the back (last added)
+    cout << "Front = " << frontValue << ", Back = " << backValue << endl;
 
     // We could also use the following code.
     // int front = ages_vector.front();
@@ -88,13 +91,14 @@ int main()
 
     // a vector can be assigned to another vector replacing
     // all the elements in the target vector.
-    vector<int> ages_vector_copy = ages_vector;  // assignment operator copies whole vector ( O(N) )
+    vector<int> ages_vector_copy = ages_vector;  // assignment operator (=) copies whole vector ( O(N) )
     cout << "Contents of copied vector ages_vectorCopy:";
     display(ages_vector_copy);
 
     cout << "Adding two more values to ages_vector..." << endl;
-    ages_vector.push_back(21);
+    ages_vector.push_back(21); // add at end
     ages_vector.push_back(18);
+
     cout << "Contents of ages_vector is now : " ;
     display(ages_vector);   // pass a vector into a function (by reference)
 
@@ -107,20 +111,22 @@ int main()
     // Let's count the number of ages in the vector that are = 18
     int age = 18;
 
-    // counts all matches (=18) from beginning to end of vector
-    int num_items = count(ages_vector.begin(), ages_vector.end(), age);
+    // counts all matches (==18) from beginning to end of vector
+    // begin() and end() functions return iterators
+    size_t num_items = count(ages_vector.begin(), ages_vector.end(), age);
+
     cout << "Count of students aged " << age << " = " << num_items << endl;
 
     // begin() returns an iterator that points at the beginning of the vector
     // end() returns an iterator that points immediately past the last element of the vector
 
     // use the count_if() function from <algorithm> library
-    // and a lambda expression to count student ages that are less than 18
-    int count_under18 = count_if(ages_vector.begin(),
+    // and a lambda function expression to count student ages that are less than 18
+    size_t count_of_under18s = count_if(ages_vector.begin(),
                                  ages_vector.end(),
                                  [] (int i) { return i < 18; }    // predicate
                                  );
-    cout << "Count of students aged under 18 = " << count_under18 << '\n';
+    cout << "Count of students aged under 18 = " << count_of_under18s << '\n';
 
     // Lambda expression:  "[] (int i) { return i < 18; }"
     // A "lambda" is a type of function that does not have a name.
@@ -128,7 +134,7 @@ int main()
     // The function count_if()  applies the "lambda" function to each element as it meets them.
     // Elements are passed into the parameter "i" - one by one, for each lambda call.
     // This lambda applies the "predicate" ("i<18") - to test whether each element (age)
-    // is less than 18 or not.  It returns true or false in each case.
+    // is less than 18 or not.  It returns true or false.
     // count_if increments a count for each time "true" is returned, and
     // finally returns the count.
 
@@ -137,17 +143,18 @@ int main()
 
 /**
  * Display the elements from a vector of integers.
- * @param vect is a reference to a 'constant vector of int'
+ * @param theVector is a reference to a 'constant vector of int'
  * - a reference is an alias - another name for the vector 'ages_vector' in this case.
+ *
  */
-void display(const vector<int>& vect)
+void display(const vector<int>& theVector)
 {
-    for (int i=0; i < vect.size(); i++)
+    for (int i=0; i < theVector.size(); i++)
     {
         if (i != 0) {
             cout << ",";
         }
-        cout << vect.at(i);
+        cout << theVector.at(i);
     }
     cout << endl;
 }
